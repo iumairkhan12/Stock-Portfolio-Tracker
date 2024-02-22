@@ -1,0 +1,89 @@
++*In[1]:*+
+[source, ipython3]
+----
+class Stock:
+    def __init__(self, symbol, quantity, purchase_price):
+        self.symbol = symbol
+        self.quantity = quantity
+        self.purchase_price = purchase_price
+        self.current_price = 0  # Placeholder for current price
+
+    def update_price(self, current_price):
+        self.current_price = current_price
+
+    def calculate_profit_loss(self):
+        return (self.current_price - self.purchase_price) * self.quantity
+
+class Portfolio:
+    def __init__(self):
+        self.stocks = []
+
+    def add_stock(self, stock):
+        self.stocks.append(stock)
+
+    def remove_stock(self, symbol):
+        self.stocks = [stock for stock in self.stocks if stock.symbol != symbol]
+
+    def update_prices(self, stock_prices):
+        for stock in self.stocks:
+            stock.update_price(stock_prices[stock.symbol])
+
+    def calculate_total_profit_loss(self):
+        total_profit_loss = 0
+        for stock in self.stocks:
+            total_profit_loss += stock.calculate_profit_loss()
+        return total_profit_loss
+
+# Example usage with manual input:
+portfolio = Portfolio()
+
+# Adding stocks manually
+stock1_symbol = input("Enter symbol for Stock 1: ")
+stock1_quantity = int(input("Enter quantity for Stock 1: "))
+stock1_purchase_price = float(input("Enter purchase price for Stock 1: "))
+stock1 = Stock(stock1_symbol, stock1_quantity, stock1_purchase_price)
+portfolio.add_stock(stock1)
+
+stock2_symbol = input("Enter symbol for Stock 2: ")
+stock2_quantity = int(input("Enter quantity for Stock 2: "))
+stock2_purchase_price = float(input("Enter purchase price for Stock 2: "))
+stock2 = Stock(stock2_symbol, stock2_quantity, stock2_purchase_price)
+portfolio.add_stock(stock2)
+
+# Simulating fetching current prices (can be replaced with real API calls)
+current_prices = {stock1_symbol: 160, stock2_symbol: 2100}
+
+# Updating stock prices in the portfolio
+portfolio.update_prices(current_prices)
+
+# Displaying current portfolio
+print("Current Portfolio:")
+for stock in portfolio.stocks:
+    print(f"Symbol: {stock.symbol}, Quantity: {stock.quantity}, Current Price: {stock.current_price}")
+
+# Calculating total profit/loss
+print(f"Total Profit/Loss: {portfolio.calculate_total_profit_loss()} USD")
+
+----
+
+
++*Out[1]:*+
+----
+Enter symbol for Stock 1: 500
+Enter quantity for Stock 1: 1000
+Enter purchase price for Stock 1: 660
+Enter symbol for Stock 2: 400
+Enter quantity for Stock 2: 1500
+Enter purchase price for Stock 2: 700
+Current Portfolio:
+Symbol: 500, Quantity: 1000, Current Price: 160
+Symbol: 400, Quantity: 1500, Current Price: 2100
+Total Profit/Loss: 1600000.0 USD
+----
+
+
++*In[ ]:*+
+[source, ipython3]
+----
+
+----
